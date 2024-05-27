@@ -1,47 +1,52 @@
-Decision Tree Classifier for Restaurant Types
-Overview
-This program is an implementation of the Decision Tree algorithm used to classify types of restaurants based on several attributes: rating, number of ratings, average cost, online ordering availability, and table booking availability.
+---
+# Klasifikasi Jenis Restoran dengan Pohon Keputusan
 
-Detailed Workflow
-Reading Data from Excel:
-The program reads restaurant data from an Excel file using pandas and converts it into a list of dictionaries (data rows).
+## Gambaran Umum
+Program ini merupakan implementasi dari algoritma Decision Tree yang digunakan untuk mengklasifikasikan jenis-jenis restoran berdasarkan beberapa atribut: rate (out of 5), num of rating, avg cost (two people), online_order, dan table booking.
 
-Data Preprocessing:
-Convert the values of the online_order and table_booking attributes from text format ("Yes"/"No") to binary (1/0).
+## Detail Langkah-Langkah Kerja
+1. **Membaca Data dari Excel**:
+   Program membaca data restoran dari file Excel menggunakan pandas dan mengubahnya menjadi list of dictionaries (baris data).
 
-Calculating Gini Impurity:
-Gini impurity is used to measure the heterogeneity of a node. Low impurity values mean the node is more homogeneous. The gini_impurity function calculates the impurity of a set of data rows.
+2. **Pra-pemrosesan Data**:
+   Mengonversi nilai atribut online_order dan table booking dari format teks ("Ya"/"Tidak") menjadi biner (1/0).
 
-Splitting the Dataset:
-The split_dataset function divides the dataset into two subsets based on a certain attribute value. The first subset contains rows with attribute values >= a certain value, and the second subset contains rows with attribute values < that value.
+3. **Menghitung Gini Impurity**:
+   Gini impurity digunakan untuk mengukur heterogenitas dari suatu node. Nilai impurity rendah berarti node lebih homogen. Fungsi gini_impurity menghitung impurity dari suatu kumpulan baris data.
 
-Finding the Best Split:
-The find_best_split function searches for the best attribute and value that provide the highest gain in dataset division. Gain is the reduction in impurity from dividing the dataset.
+4. **Membagi Dataset**:
+   Fungsi split_dataset membagi dataset menjadi dua subset berdasarkan nilai atribut tertentu. Subset pertama berisi baris dengan nilai atribut >= nilai tertentu, dan subset kedua berisi baris dengan nilai atribut < nilai tersebut.
 
-Building the Decision Tree:
-The build_tree function recursively constructs the decision tree by selecting the best division at each step. Decision nodes are created for each division, and leaf nodes are created when no further gain can be obtained.
+5. **Menemukan Pembagian Terbaik**:
+   Fungsi find_best_split mencari atribut dan nilai terbaik yang memberikan pembagian dataset dengan gain tertinggi. Gain adalah pengurangan impurity dari pembagian dataset.
 
-Classification:
-The classify function classifies a new data row based on the constructed decision tree. If a node is a leaf, it returns a prediction based on the majority type of restaurants in that leaf.
+6. **Membangun Pohon Keputusan**:
+   Fungsi build_tree membangun Decision Tree secara rekursif dengan memilih pembagian terbaik di setiap langkah. Node keputusan (DecisionNode) dibuat untuk setiap pembagian, dan node daun (Leaf) dibuat ketika tidak ada lagi gain yang bisa diperoleh.
 
-User Input:
-The get_user_input function prompts the user to input attributes of a new restaurant to be predicted.
+7. **Klasifikasi**:
+   Fungsi classify mengklasifikasikan sebuah baris data baru berdasarkan Decision Tree yang sudah dibangun. Jika node adalah daun, ia mengembalikan prediksi berdasarkan mayoritas jenis restoran di daun tersebut.
 
-Prediction:
-The predict function classifies the user input using the constructed decision tree and returns the predicted restaurant type.
+8. **Pengambilan Input dari Pengguna**:
+   Fungsi get_user_input meminta pengguna memasukkan atribut restoran baru yang ingin diprediksi jenisnya.
 
-Reasons for Using This Approach
-Decision Tree: This algorithm is easy to understand and interpret. It works well on data with many categorical and numerical features. Additionally, it does not require extensive data preprocessing.
-Gini Impurity: Used as the metric for best selection because it is easy to compute and commonly used in decision trees.
-Recursive: The recursive approach facilitates the formation of a decision tree that can continuously divide the dataset until optimal results are achieved.
-Requirements
-Python:
-Python 3.x Installation
-Pandas:
-Used to read and process data from Excel files.
-Installation: pip install pandas
-OpenPyXL:
-Used by pandas to read Excel files.
-Installation: pip install openpyxl
-Python Program (Code):
-This program requires access to an Excel file containing restaurant data. You need to ensure the Excel file is in the correct location and has appropriate column formatting.
+9. **Prediksi**:
+   Fungsi predict mengklasifikasikan input dari pengguna dengan menggunakan Decision Tree yang sudah dibangun dan mengembalikan jenis restoran yang diprediksi.
+
+## Alasan Menggunakan Pendekatan Ini
+- **Decision Tree**: Algoritma ini mudah dipahami dan diinterpretasikan. Ia bekerja baik pada data dengan banyak fitur kategorikal dan numerik. Selain itu, tidak memerlukan pra-pemrosesan data yang ekstensif.
+- **Gini Impurity**: Digunakan sebagai metrik pemilihan terbaik karena mudah dihitung dan umum digunakan dalam pohon keputusan.
+- **Rekursif**: Pendekatan rekursif memudahkan pembentukan pohon keputusan yang dapat terus membagi dataset hingga mendapatkan hasil yang optimal.
+
+## Persyaratan
+### Python:
+- Instalasi Python versi 3.x
+### Pandas:
+- Digunakan untuk membaca dan memproses data dari file Excel.
+  - Instalasi: `pip install pandas`
+### OpenPyXL:
+- Digunakan oleh pandas untuk membaca file Excel.
+  - Instalasi: `pip install openpyxl`
+### Program Python (Kode):
+- Program ini membutuhkan akses ke file Excel yang berisi data restoran. Anda perlu memastikan file Excel berada di lokasi yang benar dan memiliki format kolom yang sesuai.
+
+---
