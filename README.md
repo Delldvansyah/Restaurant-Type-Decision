@@ -1,4 +1,3 @@
----
 # Klasifikasi Jenis Restoran dengan Pohon Keputusan
 
 ## Gambaran Umum
@@ -48,5 +47,3 @@ Program ini merupakan implementasi dari algoritma Decision Tree yang digunakan u
   - Instalasi: `pip install openpyxl`
 ### Program Python (Kode):
 - Program ini membutuhkan akses ke file Excel yang berisi data restoran. Anda perlu memastikan file Excel berada di lokasi yang benar dan memiliki format kolom yang sesuai.
-
----
