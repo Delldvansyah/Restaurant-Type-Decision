@@ -1,17 +1,20 @@
 import pandas as pd
 from collections import Counter
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import accuracy_score
+import numpy as np
 
-# Function to read data from Excel
+# Fungsi Read data excel
 def read_data_from_excel(file_path):
     df = pd.read_excel(file_path)
     data = df.to_dict(orient='records')
     return data
 
-# Reading data from Excel
-file_path = 'zomato (5 Variabel).xlsx'
+# Baca data excel
+file_path = 'zomato.xlsx'
 data = read_data_from_excel(file_path)
 
-# Converting Yes/No to 1/0
+# Convert jika Yes = 1, No = 0
 for row in data:
     row["online_order"] = 1 if row["online_order"] == "Yes" else 0
     row["table booking"] = 1 if row["table booking"] == "Yes" else 0
@@ -25,19 +28,19 @@ def gini_impurity(rows):
         impurity -= prob_of_lbl ** 2
     return impurity
 
-# Function to split dataset
+# Fungsi buat split dataset
 def split_dataset(rows, attribute, value):
     left = [row for row in rows if row[attribute] >= value]
     right = [row for row in rows if row[attribute] < value]
     return left, right
 
-# Finding the best split
+# Cari split yang terbaik
 def find_best_split(rows):
     best_gain = 0
     best_attribute = None
     best_value = None
     current_impurity = gini_impurity(rows)
-    n_features = len(rows[0]) - 1  # number of columns minus the label
+    n_features = len(rows[0]) - 1 
 
     for col in rows[0]:
         if col == "restaurant type":
@@ -89,10 +92,32 @@ def classify(row, node):
     else:
         return classify(row, node.false_branch)
 
-# Build the tree
-my_tree = build_tree(data)
+# Shuffle dataset
+np.random.shuffle(data)
 
-# Function to take user input
+# Split the data into training and testing sets
+train_data, test_data = train_test_split(data, test_size=0.2)
+
+# Build the tree using the training set
+my_tree = build_tree(train_data)
+
+# Fungsi Prediksi
+def predict(query):
+    query = query.copy()
+    query["online_order"] = 1 if query["online_order"] == "Yes" else 0
+    query["table booking"] = 1 if query["table booking"] == "Yes" else 0
+    prediction = classify(query, my_tree)
+    return prediction.most_common(1)[0][0]
+
+# Akurasinya
+correct_predictions = 0
+for row in test_data:
+    if row["restaurant type"] == predict(row):
+        correct_predictions += 1
+
+accuracy = correct_predictions / len(test_data) * 100
+
+# User inputnya
 def get_user_input():
     rate = float(input("Enter the rate : "))
     num_ratings = int(input("Enter the number of ratings : "))
@@ -109,17 +134,10 @@ def get_user_input():
     }
     return query
 
-# Predict function
-def predict(query):
-    query = query.copy()
-    query["online_order"] = 1 if query["online_order"] == "Yes" else 0
-    query["table booking"] = 1 if query["table booking"] == "Yes" else 0
-    prediction = classify(query, my_tree)
-    return prediction.most_common(1)[0][0]
-
-# Taking user input
+# Ambil user input
 query = get_user_input()
 
-# Making prediction
+# Buat Prediksi
 predicted_type = predict(query)
 print("Predicted restaurant type:", predicted_type)
+print(f"Model Accuracy: {accuracy:.2f}%")
