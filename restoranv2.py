@@ -11,7 +11,7 @@ def read_data_from_excel(file_path):
     return data
 
 # Baca data excel
-file_path = 'zomato.xlsx'
+file_path = 'zomato_2000.xlsx'
 data = read_data_from_excel(file_path)
 
 # Convert jika Yes = 1, No = 0
@@ -96,7 +96,7 @@ def classify(row, node):
 np.random.shuffle(data)
 
 # Split the data into training and testing sets
-train_data, test_data = train_test_split(data, test_size=0.2)
+train_data, test_data = train_test_split(data, test_size=0.01)
 
 # Build the tree using the training set
 my_tree = build_tree(train_data)
